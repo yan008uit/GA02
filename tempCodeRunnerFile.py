@@ -1,1 +1,0 @@
-odel_logs['loss'].append(loss)
