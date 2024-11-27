@@ -2,12 +2,7 @@
 
 Code for training a Deep Reinforcement Learning agent to play the game of Snake.
 The agent takes 2 frames of the game as input (image) and predicts the action values for
-the next action to take.
-***
-Sample games from the best performing [agent](../models/v15.1/model_188000.h5)<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.1_188000_1.gif" alt="model v15.1 agent" ><img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.1_188000_5.gif" alt="model v15.1 agent" >
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.1_188000_6.gif" alt="model v15.1 agent" ><img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.1_188000_11.gif" alt="model v15.1 agent" >
-***
+the next action to take. In this code we will be focusing on DeepQLearningAgent only.
 
 ## Code Structure
 [game_environment.py](../game_environment.py) contains the necessary code to create and interact with the snake environment (class Snake and SnakeNumpy). The interface is similar to openai gym interface.
@@ -84,44 +79,18 @@ while(True):
 Configuration for different experiments can be found in [model_versions.json](../model_versions.json) file.
 Adam optimizer gives a very noisy curve with very slow increase in rewards. Loss is also not stable. Hence, RMS optimizer is chosen for all further tests and training.
 
-### Effect of Reward Type
-Two reward structures are studied
-1) Simple +1/-1 reward for eating food/termination
-2) +1/-1 * (length of snake - starting length + 1) (increasing rewards)
-Both schemes give similar trends for length of snake.
-![alt text](https://github.com/DragonWarrior15/snake-rl/blob/master/images/model_logs_v15.1_reward_type.png "Effect of Reward Type")
-
-Sample game from the second reward structure<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.3_87500_4.gif" alt="model v15.3 agent">
-
-### Effect of Batch Size
-Batch sizes of 64 and 128 are compared. Since both give similar performance, 64 is chosen for faster training.
-![alt text](https://github.com/DragonWarrior15/snake-rl/blob/master/images/model_logs_v15.1_batch_size.png "Effect of Batch Size")
-
-Sample game from batch size 128 model<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.4_83000_4.gif" alt="model v15.4 agent">
-
-
-### Effect of PreTraining
-The model is initialized with a pretrained model using samples collected from BFS Agent.
-Initially, the pretrained model seems to have quicker learning, but DQN is able to soon catch with it. This is due the fact that samples collected from BFS Agent were restricted to 18 time steps to allow DQN to do further learning.
-![alt text](https://github.com/DragonWarrior15/snake-rl/blob/master/images/model_logs_v15.1_pre_trained.png "Effect of PreTraining")
-
-Sample game from pretrained model<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v15.2_45500_0.gif" alt="model v15.2 agent">
-
 ## Environment with Obstacles
 40000 10x10 boards are randomly generated with 8 cells as obstacles, while ensuring that the snake always has a path to navigate through the board. The code for the same can be located at : [obstacles_board_generator.py](../obstacles_board_generator.py)<br>
 Based on the sample plays below, it is evident that the learned policy generalizes well over boards with random obstacles, and even works good on boards with higher number of obstacles (although it has a higher chance of getting stuck in a loop)<br>
 
-Sample games from the best [model](../models/v17.1/model_163500.h5)<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v17.1_163500_6.gif" alt="model v17.1 agent"><img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v17.1_163500_9.gif" alt="model v17.1 agent"><br>
+Sample games from the best [model](../models/v17.1/model_163500.h5) with obstacles<br>
+<video controls width="400" height="400" src="images/game_visual_v17.1_163500_14_ob_0.mp4" title="model v17.1 agent"></video><br>
 
-Sample games from the best [model](../models/v17.1/model_163500.h5) on out of sample boards<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v17.1_163500_oos_5.gif" alt="model v17.1 agent"><img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v17.1_163500_oos_9.gif" alt="model v17.1 agent"><br>
+Sample games from [model](../models/v17.1/model_163500.h5) with obstacles<br>
+<video controls width="400" height="400" src="images/game_visual_v17.1_163500_14_ob_1.mp4" title="model v17.1 agent"></video><br>
 
-Sample game from the best [model](../models/v17.1/model_163500.h5) on empty board<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v17.1_163500_no_ob_1.gif" alt="model v17.1 agent">
+Sample games from [model](../models/v17.1/model_163500.h5) with obstacles<br>
+<video controls width="400" height="400" src="images/game_visual_v17.1_163500_14_ob_2.mp4" title="model v17.1 agent"></video><br>
 
-Sample game from the best [model](../models/v17.1/model_163500.h5) on board with more obstacles<br>
-<img width="400" height="400" src="https://github.com/DragonWarrior15/snake-rl/blob/master/images/game_visual_v17.1_163500_14_ob_3.gif" alt="model v17.1 agent">
+Sample games from [model](../models/v17.1/model_163500.h5) with obstacles<br>
+<video controls width="400" height="400" src="images/game_visual_v17.1_163500_14_ob_3.mp4" title="model v17.1 agent"></video><br>
